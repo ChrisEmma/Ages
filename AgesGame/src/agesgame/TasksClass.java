@@ -37,4 +37,7 @@ public class TasksClass {
 	public int getCount(){
 		return count;
 	}
+	public void setBuilding(int i){
+		building = i;
+	}
 }

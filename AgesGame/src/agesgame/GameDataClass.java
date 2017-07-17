@@ -183,7 +183,7 @@ public class GameDataClass {
         setupBuilding(buildings[i].getUpgradeID(),buildings[i].getX(),buildings[i].getY(), i);
         buildings[i].setUpgrading();
     }
-    public void deleteBuilding(int bld){		//ERROR   Tasks linked to old building indices
+    public void deleteBuilding(int bld){
     	System.out.println("Delete Building " + bld);
     	int i = 0;
     	while (i < tasks.size()){
@@ -209,9 +209,8 @@ public class GameDataClass {
     			buildings[n] = buildings[n+1];
     			
     			while (i < tasks.size()){
-    	    		if (tasks.get(i).getBuilding() == tbd){
-
-    	    			tasks.remove(i);
+    	    		if (tasks.get(i).getBuilding() == (n+1)){
+    	    			tasks.get(i).setBuilding(n);
     	    		}else{
     	    		 i++;
     	    		}

@@ -89,7 +89,7 @@ public class BuildingInfoImpl extends javax.swing.JPanel {
     	upperView.openProductionMenu(index);
     }
     public void cancelBuild(){
-    	//game.deleteBuilding(index);
+    	game.deleteBuilding(index);
     	this.setVisible(false);
     }
     public void scaleView(){
