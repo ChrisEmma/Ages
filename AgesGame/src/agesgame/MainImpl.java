@@ -30,9 +30,9 @@ public class MainImpl extends javax.swing.JPanel {
     	this.add(titleScreen);
     	titleScreen.setSize(this.getSize());
     }
-    public void setCityView(){
+    public void setCityView(boolean debug){
         System.out.println("Set City View");
-        game.setupNewGame();
+        game.setupNewGame(debug);
         cityView = new CityViewImpl(game, SCALE);
         
         TimerClass screenTimer = new TimerClass(this,200);
@@ -40,9 +40,9 @@ public class MainImpl extends javax.swing.JPanel {
         cityView.setSize(this.getSize());
     }
 
-    void start(){
+    void startNew(boolean debug){
     	this.remove(titleScreen);
-        setCityView();
+        setCityView(debug);
     } 
     
     public void timerTick(){

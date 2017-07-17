@@ -28,10 +28,16 @@ public class TitleImpl extends javax.swing.JPanel {
         VersionLabel.setText(version);
         this.setComponentZOrder(NewGameLabel, 0);
         this.setComponentZOrder(VersionLabel, 0);
+        this.setComponentZOrder(NewGameLabel1, 0);
+        
     }
     public void newGame(){
     	NewGameLabel.setVisible(false);
-    	upper.start();
+    	upper.startNew(false);
+    }
+    public void newGameDEBUG(){
+    	NewGameLabel.setVisible(false);
+    	upper.startNew(true);
     }
     public BufferedImage getTitleImage() {
     	BufferedImage image = null;
@@ -49,6 +55,9 @@ public class TitleImpl extends javax.swing.JPanel {
     	NewGameLabel.setBounds(upper.getScaledValue(NewGameLabel.getX()), upper.getScaledValue(NewGameLabel.getY()), upper.getScaledValue(NewGameLabel.getWidth()), upper.getScaledValue(NewGameLabel.getHeight()));
     	NewGameLabel.setFont(new java.awt.Font("Tahoma", 1, upper.getScaledValue(16))); // NOI18N
     	
+    	NewGameLabel1.setBounds(upper.getScaledValue(NewGameLabel1.getX()), upper.getScaledValue(NewGameLabel1.getY()), upper.getScaledValue(NewGameLabel1.getWidth()), upper.getScaledValue(NewGameLabel1.getHeight()));
+    	NewGameLabel1.setFont(new java.awt.Font("Tahoma", 1, upper.getScaledValue(13))); // NOI18N
+    	
     	VersionLabel.setBounds(upper.getScaledValue(VersionLabel.getX()), upper.getScaledValue(VersionLabel.getY()), upper.getScaledValue(VersionLabel.getWidth()), upper.getScaledValue(VersionLabel.getHeight()));
     	VersionLabel.setFont(new java.awt.Font("Tahoma", 0, upper.getScaledValue(14))); // NOI18N
     }
@@ -65,6 +74,7 @@ public class TitleImpl extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         NewGameLabel = new javax.swing.JLabel();
         VersionLabel = new javax.swing.JLabel();
+        NewGameLabel1 = new javax.swing.JLabel();
 
         setLayout(null);
         add(jLabel1);
@@ -80,21 +90,39 @@ public class TitleImpl extends javax.swing.JPanel {
             }
         });
         add(NewGameLabel);
-        NewGameLabel.setBounds(1310, 593, 90, 50);
+        NewGameLabel.setBounds(1320, 610, 90, 50);
 
         VersionLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         VersionLabel.setText("VERSION");
         add(VersionLabel);
-        VersionLabel.setBounds(20, 720, 210, 20);
+        VersionLabel.setBounds(20, 720, 110, 20);
+
+        NewGameLabel1.setBackground(new java.awt.Color(204, 204, 204));
+        NewGameLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        NewGameLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NewGameLabel1.setText("TESTING");
+        NewGameLabel1.setOpaque(true);
+        NewGameLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NewGameLabel1MouseClicked(evt);
+            }
+        });
+        add(NewGameLabel1);
+        NewGameLabel1.setBounds(1320, 730, 90, 50);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NewGameLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewGameLabelMouseClicked
     	newGame();
     }//GEN-LAST:event_NewGameLabelMouseClicked
 
+    private void NewGameLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewGameLabel1MouseClicked
+    	newGameDEBUG();
+    }//GEN-LAST:event_NewGameLabel1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel NewGameLabel;
+    private javax.swing.JLabel NewGameLabel1;
     private javax.swing.JLabel VersionLabel;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

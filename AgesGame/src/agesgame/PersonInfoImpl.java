@@ -32,8 +32,12 @@ public class PersonInfoImpl extends javax.swing.JPanel {
         refreshDisplay();
     }
     public void refreshDisplay(){
-    	BuildingTypeLabel.setText(game.getPopulation(id).task.getString());
-    	BuildingValueLabel.setText(Math.round(game.getPopulation(id).workCount) + "");
+    	if (game.getPopulation(id).task.getString() != null){
+    		BuildingTypeLabel.setText(game.getPopulation(id).task.getString());
+    		BuildingValueLabel.setText(Math.round(game.getPopulation(id).workCount) + "");
+    	}else{
+    		BuildingTypeLabel.setText("Idle");
+    	}
         
     	UpgradeCostLabel.setText(game.getPopulation(id).getX() + ", " + game.getPopulation(id).getY());
     	FoodLabel.setText("F:" + Math.round(game.getPopulation(id).food));

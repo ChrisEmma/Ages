@@ -18,7 +18,7 @@ public class GameDataClass {
 	public int TILE_SIZE = 10;
 	
 	private boolean pause;
-	private boolean testing;
+	//private boolean testing;
 	private String civName;
     public double clock;
     public GameTablesClass tables;
@@ -60,8 +60,7 @@ public class GameDataClass {
         military[0] = new ArrayList<Integer>();
         System.out.println("Game Initilized");
     }
-    public void setupNewGame(){
-    	testing = true;
+    public void setupNewGame(boolean testing){
     	popGrowth = 0;
         
         year = -3000;
