@@ -33,6 +33,7 @@ public class GameDataClass {
     private int popCount;
     private PersonClass population[] = new PersonClass[30];
     private WildClass animals[] = new WildClass[10];
+    private WildClass barbarians[] = new WildClass[10];
     
     ArrayList<Integer>[] military = (ArrayList<Integer>[])new ArrayList[4];
     
@@ -67,8 +68,8 @@ public class GameDataClass {
         research = 0;
         
         map = new MapGenerator(tables);
-        buildings[0] = new BuildingClass(this,0,60,15,0,false);
-        buildings[1] = new BuildingClass(this,1,48,16,0,false);
+        buildings[0] = new BuildingClass(this,0,60,16,0,false);
+        buildings[1] = new BuildingClass(this,1,48,17,0,false);
         buildings[1].setConstructed(true);
         buildingCount = 2;
         population[0] = new PersonClass(this,50,15,"BUILD,PICKUP",-1);
@@ -100,17 +101,22 @@ public class GameDataClass {
         pause = false;
         
         animals[0] = new WildClass(this,false,0, 15,35);		//ADD tasks from CreatureInfo - Hunt button
-        tasks.add(new TasksClass("HUNT",0,0));
         animals[1] = new WildClass(this,false,0, 17,34);
-        tasks.add(new TasksClass("HUNT",0,1));
         animals[2] = new WildClass(this,false,1, 16,34);
-        tasks.add(new TasksClass("HUNT",0,2));
+        
+        
+        barbarians[0] = new WildClass(this,true,0, 35,48);
+        
         
         if (testing){
         	research = 15;
         	resource[7] = 60;
         	resource[8] = 30;
             resource[9] = 10;
+            
+            population[5] = new PersonClass(this,30,20,"PICKUP",-1);
+            popCount = 6;
+            items[2] = 1;
         }
     }
     public void loadGame(){
@@ -121,7 +127,7 @@ public class GameDataClass {
     
     }
     public int getCivEra(){
-    	if (buildings[0].getID() >= 7 && buildings[0].getConstructed()) //Need perminance: Will return false if building is further upgraded
+    	if (buildings[0].getID() >= 7 && buildings[0].getConstructed()) //Need permanence: Will return false if building is further upgraded
     		return 1;
     	return 0;
     }
@@ -222,7 +228,7 @@ public class GameDataClass {
     }
     
     public BufferedImage getMap(int x, int y){
-        return map.getTerrainMap().getSubimage(x, y, 1600, 730);
+        return map.getTerrainMap().getSubimage(x, -y, 1600, 730);
     }
     
     public void timerTick() {
@@ -267,8 +273,8 @@ public class GameDataClass {
     		craft = Integer.parseInt(tables.getBuildingProduction(buildings[build].getID()));
     	}
     	
-    	tasks.add(new TasksClass("CRAFT-" + build + "-" + craft ));
-    	System.out.println("Task Added: " + "CRAFT-" + build + "-" + craft );
+    	tasks.add(new TasksClass("CRAFT", build, craft ));
+    	System.out.println("Task Added: " + "CRAFT-" + build + "-" + craft + " (" + tables.getItemName(craft) + ")");
     }
     public void addResearchPoints(int t){
     	research += t;
@@ -319,12 +325,12 @@ public class GameDataClass {
         }
         return house;
     }
-    public int getWorkTime(String job, int building){
-        int time = tables.getTaskTime(job);
-        if (building > -1 && !job.contains("BUILD")){
-            time -= buildings[building].getValue();
+    public int getWorkTime(TasksClass job){
+        int time = tables.getTaskTime(job.getString(),job.getObject());
+        if (job.getBuilding() > 0 && !job.getString().contains("BUILD")){
+            time -= buildings[job.getBuilding()].getValue();
         }
-        if (job.contains("THINK")){
+        if (job.getString().contains("THINK")){
         	if (technology[4])
         		time -= tables.getTechValue(4);
         }
@@ -397,8 +403,14 @@ public class GameDataClass {
     public WildClass getAnimal(int i){
     	return animals[i];
     }
+    public WildClass getBarbarian(int i){
+    	return barbarians[i];
+    }
     public int animalCount(){
-    	return 3;
+    	return 3;//TBD
+    }
+    public int barbarianCount(){
+    	return 1;//TBD
     }
     public int getPopCount(){
         return popCount;
@@ -508,6 +520,9 @@ public class GameDataClass {
     }
     public boolean redrawMap(){
         return map.resetTerrain;
+    }
+    public void setMapRedraw(){
+    	map.setRedraw(true);
     }
     public void clearRedraw(){
         map.setRedraw(false);

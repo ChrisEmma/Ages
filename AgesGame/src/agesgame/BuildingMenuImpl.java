@@ -32,6 +32,7 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
         }
         
         CostLabel.setVisible(false);
+        TypeLabel.setVisible(false);
         SelectionLabel.setVisible(false);
     }
         
@@ -45,6 +46,8 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
     		SelectionLabel.setText(game.tables.getBuildingName(ID));
     		CostLabel.setVisible(true);
             CostLabel.setText(game.tables.getBuildingCostText(ID));
+            TypeLabel.setVisible(true);
+            TypeLabel.setText(game.tables.getBuildingType(ID));
     		upperView.setBuildMode(ID);
     	}
     }
@@ -91,7 +94,7 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
     }
 
     public void scaleView(){
-    	for (int i = 0; i < 18; i ++){
+    	for (int i = 0; i < 19; i ++){
         	JLabel setLabel = new javax.swing.JLabel();;
         	if (i == 0)
         		setLabel = BuildingLabel0;
@@ -129,6 +132,8 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
         		setLabel = CostLabel;
 			if (i == 17)
         		setLabel = SelectionLabel;
+			if (i == 18)
+        		setLabel = TypeLabel;
 			
         	setLabel.setBounds(upperView.Scale(setLabel.getX()), upperView.Scale(setLabel.getY()), upperView.Scale(setLabel.getWidth()), upperView.Scale(setLabel.getHeight()));
         	setLabel.setFont(new java.awt.Font("Tahoma", 0, upperView.Scale(11))); // NOI18N
@@ -163,6 +168,7 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
         SelectionLabel = new javax.swing.JLabel();
         CostLabel = new javax.swing.JLabel();
         BuildingLabel15 = new javax.swing.JLabel();
+        TypeLabel = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -355,12 +361,12 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
         SelectionLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         SelectionLabel.setText("SELECTION");
         add(SelectionLabel);
-        SelectionLabel.setBounds(90, 300, 160, 22);
+        SelectionLabel.setBounds(60, 300, 160, 22);
 
         CostLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         CostLabel.setText("COST");
         add(CostLabel);
-        CostLabel.setBounds(90, 330, 170, 17);
+        CostLabel.setBounds(90, 350, 170, 17);
 
         BuildingLabel15.setBackground(new java.awt.Color(255, 255, 204));
         BuildingLabel15.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
@@ -373,6 +379,11 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
         });
         add(BuildingLabel15);
         BuildingLabel15.setBounds(220, 160, 55, 41);
+
+        TypeLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        TypeLabel.setText("TYPE");
+        add(TypeLabel);
+        TypeLabel.setBounds(90, 330, 170, 17);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BuildingLabel0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuildingLabel0MouseClicked
@@ -462,5 +473,6 @@ public class BuildingMenuImpl extends javax.swing.JPanel {
     private javax.swing.JLabel BuildingLabel9;
     private javax.swing.JLabel CostLabel;
     private javax.swing.JLabel SelectionLabel;
+    private javax.swing.JLabel TypeLabel;
     // End of variables declaration//GEN-END:variables
 }

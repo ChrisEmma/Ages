@@ -270,22 +270,22 @@ public class WorkforceImpl extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Builders");
         add(jLabel1);
-        jLabel1.setBounds(20, 50, 81, 22);
+        jLabel1.setBounds(20, 50, 110, 22);
 
         JobLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel1.setText("000");
         add(JobLabel1);
-        JobLabel1.setBounds(119, 47, 42, 17);
+        JobLabel1.setBounds(150, 50, 42, 17);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Foragers");
         add(jLabel2);
-        jLabel2.setBounds(20, 80, 81, 22);
+        jLabel2.setBounds(20, 80, 110, 22);
 
         JobLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel2.setText("000");
         add(JobLabel2);
-        JobLabel2.setBounds(120, 80, 42, 17);
+        JobLabel2.setBounds(150, 80, 42, 17);
 
         CloseLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         CloseLabel.setText("X");
@@ -295,47 +295,47 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(CloseLabel);
-        CloseLabel.setBounds(277, 1, 12, 14);
+        CloseLabel.setBounds(320, 0, 12, 14);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Unassigned");
         add(jLabel3);
-        jLabel3.setBounds(20, 20, 81, 22);
+        jLabel3.setBounds(20, 20, 110, 22);
 
         JobLabel0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel0.setText("000");
         add(JobLabel0);
-        JobLabel0.setBounds(119, 20, 42, 17);
+        JobLabel0.setBounds(150, 20, 42, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Woodcutters");
         add(jLabel4);
-        jLabel4.setBounds(20, 110, 99, 22);
+        jLabel4.setBounds(20, 110, 110, 22);
 
         JobLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel3.setText("000");
         add(JobLabel3);
-        JobLabel3.setBounds(120, 110, 42, 17);
+        JobLabel3.setBounds(150, 110, 42, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Stoneminers");
         add(jLabel5);
-        jLabel5.setBounds(20, 140, 81, 22);
+        jLabel5.setBounds(20, 140, 110, 22);
 
         JobLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel4.setText("000");
         add(JobLabel4);
-        JobLabel4.setBounds(120, 140, 42, 17);
+        JobLabel4.setBounds(150, 140, 42, 17);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Farmers");
         add(jLabel6);
-        jLabel6.setBounds(20, 170, 81, 22);
+        jLabel6.setBounds(20, 170, 110, 22);
 
         JobLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel5.setText("000");
         add(JobLabel5);
-        JobLabel5.setBounds(120, 170, 42, 17);
+        JobLabel5.setBounds(150, 170, 42, 17);
 
         JobUp1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp1.setText("+");
@@ -345,7 +345,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp1);
-        JobUp1.setBounds(180, 40, 30, 30);
+        JobUp1.setBounds(210, 40, 30, 30);
 
         JobDown1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown1.setText("-");
@@ -355,7 +355,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown1);
-        JobDown1.setBounds(220, 40, 30, 30);
+        JobDown1.setBounds(250, 40, 30, 30);
 
         JobUp2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp2.setText("+");
@@ -365,7 +365,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp2);
-        JobUp2.setBounds(180, 70, 30, 30);
+        JobUp2.setBounds(210, 70, 30, 30);
 
         JobDown2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown2.setText("-");
@@ -375,7 +375,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown2);
-        JobDown2.setBounds(220, 70, 30, 30);
+        JobDown2.setBounds(250, 70, 30, 30);
 
         JobUp3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp3.setText("+");
@@ -385,7 +385,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp3);
-        JobUp3.setBounds(180, 100, 30, 30);
+        JobUp3.setBounds(210, 100, 30, 30);
 
         JobDown3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown3.setText("-");
@@ -395,7 +395,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown3);
-        JobDown3.setBounds(220, 100, 30, 30);
+        JobDown3.setBounds(250, 100, 30, 30);
 
         JobUp4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp4.setText("+");
@@ -405,7 +405,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp4);
-        JobUp4.setBounds(180, 130, 30, 30);
+        JobUp4.setBounds(210, 130, 30, 30);
 
         JobDown4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown4.setText("-");
@@ -415,7 +415,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown4);
-        JobDown4.setBounds(220, 130, 30, 30);
+        JobDown4.setBounds(250, 130, 30, 30);
 
         JobUp5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp5.setText("+");
@@ -425,7 +425,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp5);
-        JobUp5.setBounds(180, 160, 30, 30);
+        JobUp5.setBounds(210, 160, 30, 30);
 
         JobDown5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown5.setText("-");
@@ -435,17 +435,17 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown5);
-        JobDown5.setBounds(220, 160, 30, 30);
+        JobDown5.setBounds(250, 160, 30, 30);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Thinkers");
         add(jLabel7);
-        jLabel7.setBounds(20, 200, 81, 22);
+        jLabel7.setBounds(20, 200, 110, 22);
 
         JobLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel6.setText("000");
         add(JobLabel6);
-        JobLabel6.setBounds(120, 200, 42, 17);
+        JobLabel6.setBounds(150, 200, 42, 17);
 
         JobUp6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp6.setText("+");
@@ -455,7 +455,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp6);
-        JobUp6.setBounds(180, 190, 30, 30);
+        JobUp6.setBounds(210, 190, 30, 30);
 
         JobDown6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown6.setText("-");
@@ -465,17 +465,17 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown6);
-        JobDown6.setBounds(220, 190, 30, 30);
+        JobDown6.setBounds(250, 190, 30, 30);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Cooks");
         add(jLabel8);
-        jLabel8.setBounds(20, 230, 81, 22);
+        jLabel8.setBounds(20, 230, 110, 22);
 
         JobLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel7.setText("000");
         add(JobLabel7);
-        JobLabel7.setBounds(120, 230, 42, 17);
+        JobLabel7.setBounds(150, 230, 42, 17);
 
         JobUp7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp7.setText("+");
@@ -485,7 +485,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp7);
-        JobUp7.setBounds(180, 220, 30, 30);
+        JobUp7.setBounds(210, 220, 30, 30);
 
         JobDown7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown7.setText("-");
@@ -495,17 +495,17 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown7);
-        JobDown7.setBounds(220, 220, 30, 30);
+        JobDown7.setBounds(250, 220, 30, 30);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Crafters");
         add(jLabel9);
-        jLabel9.setBounds(20, 260, 81, 22);
+        jLabel9.setBounds(20, 260, 110, 22);
 
         JobLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel8.setText("000");
         add(JobLabel8);
-        JobLabel8.setBounds(120, 260, 42, 17);
+        JobLabel8.setBounds(150, 260, 42, 17);
 
         JobUp8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp8.setText("+");
@@ -515,7 +515,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp8);
-        JobUp8.setBounds(180, 250, 30, 30);
+        JobUp8.setBounds(210, 250, 30, 30);
 
         JobDown8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown8.setText("-");
@@ -525,17 +525,17 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown8);
-        JobDown8.setBounds(220, 250, 30, 30);
+        JobDown8.setBounds(250, 250, 30, 30);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setText("Clay Gather");
         add(jLabel10);
-        jLabel10.setBounds(20, 290, 81, 22);
+        jLabel10.setBounds(20, 290, 110, 22);
 
         JobLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JobLabel9.setText("000");
         add(JobLabel9);
-        JobLabel9.setBounds(120, 290, 42, 17);
+        JobLabel9.setBounds(150, 290, 42, 17);
 
         JobUp9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobUp9.setText("+");
@@ -545,7 +545,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobUp9);
-        JobUp9.setBounds(180, 280, 30, 30);
+        JobUp9.setBounds(210, 280, 30, 30);
 
         JobDown9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JobDown9.setText("-");
@@ -555,7 +555,7 @@ public class WorkforceImpl extends javax.swing.JPanel {
             }
         });
         add(JobDown9);
-        JobDown9.setBounds(220, 280, 30, 30);
+        JobDown9.setBounds(250, 280, 30, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CloseLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CloseLabelMouseClicked

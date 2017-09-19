@@ -25,11 +25,13 @@ public class MilitaryImpl extends javax.swing.JPanel {
     		getTeamMemberLabel(0,i).setIcon(new ImageIcon(game.getPopulation(game.military[0].get(i)).getImage().getScaledInstance(upperView.Scale(2*upperView.POP_W), upperView.Scale(2*upperView.POP_L), 0)));
     		
     		getMemberWepLabel(0,i).setVisible(true);
+    		getMemberAttackLabel(0,i).setVisible(true);
     		if (game.getPopulation(game.military[0].get(i)).getWeapon() < 1){
     			getMemberWepLabel(0,i).setText("Unarmed");
     		}else{
     			getMemberWepLabel(0,i).setText(game.tables.getItemName(game.getPopulation(game.military[0].get(i)).getWeapon()));
     		}
+    		getMemberAttackLabel(0,i).setText("A:"+game.getPopulation(i).getAttackDammage());
     	}
     	
     	if (game.military[0].size() < 3){
@@ -40,6 +42,7 @@ public class MilitaryImpl extends javax.swing.JPanel {
 	    	for (int i = game.military[0].size() + 1; i < 3; i ++){
 	    		getTeamMemberLabel(0,i).setVisible(false);
 	    		getMemberWepLabel(0,i).setVisible(false);
+	    		getMemberAttackLabel(0,i).setVisible(false);
 	    	}
     	}
     }
@@ -109,6 +112,17 @@ public class MilitaryImpl extends javax.swing.JPanel {
     	}
     	return null;
     }
+    public JLabel getMemberAttackLabel(int team, int i){
+    	if (team == 0){
+	    	if (i == 0)
+	    		return MemberAttack0_0;
+	    	if (i == 1)
+	    		return MemberAttack0_1;
+	    	if (i == 2)
+	    		return MemberAttack0_2;
+    	}
+    	return null;
+    }
     	
 
     public void scaleView(){
@@ -137,8 +151,9 @@ public class MilitaryImpl extends javax.swing.JPanel {
 	    		getTeamMemberLabel(c,i).setBounds(upperView.Scale(getTeamMemberLabel(c,i).getX()), upperView.Scale(getTeamMemberLabel(c,i).getY()), upperView.Scale(2*upperView.POP_W), upperView.Scale(2*upperView.POP_L));
 	    		
 	    		getMemberWepLabel(c,i).setBounds(upperView.Scale(getMemberWepLabel(c,i).getX()), upperView.Scale(getMemberWepLabel(c,i).getY()), upperView.Scale(getMemberWepLabel(c,i).getWidth()), upperView.Scale(getMemberWepLabel(c,i).getHeight()));
+	    		getMemberAttackLabel(c,i).setBounds(upperView.Scale(getMemberAttackLabel(c,i).getX()), upperView.Scale(getMemberAttackLabel(c,i).getY()), upperView.Scale(getMemberAttackLabel(c,i).getWidth()), upperView.Scale(getMemberAttackLabel(c,i).getHeight()));
 	    		
-	    		
+	    		getMemberAttackLabel(c,i).setFont(new java.awt.Font("Tahoma", 0, upperView.Scale(14))); // NOI18N	
 	    		getMemberWepLabel(c,i).setFont(new java.awt.Font("Tahoma", 1, upperView.Scale(14))); // NOI18N	
 	        }
     	}
@@ -161,11 +176,14 @@ public class MilitaryImpl extends javax.swing.JPanel {
         TeamMember0_1 = new javax.swing.JLabel();
         TeamMember0_2 = new javax.swing.JLabel();
         TeamWeapon0 = new javax.swing.JLabel();
-        MemberWep0_0 = new javax.swing.JLabel();
+        MemberAttack0_0 = new javax.swing.JLabel();
         MemberWep0_1 = new javax.swing.JLabel();
         MemberWep0_2 = new javax.swing.JLabel();
         AvailableLabel = new javax.swing.JLabel();
         TeamTrain0 = new javax.swing.JLabel();
+        MemberWep0_0 = new javax.swing.JLabel();
+        MemberAttack0_1 = new javax.swing.JLabel();
+        MemberAttack0_2 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setLayout(null);
@@ -210,7 +228,7 @@ public class MilitaryImpl extends javax.swing.JPanel {
             }
         });
         add(TeamMember0_0);
-        TeamMember0_0.setBounds(110, 50, 20, 40);
+        TeamMember0_0.setBounds(100, 50, 20, 40);
 
         TeamMember0_1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         TeamMember0_1.setText("X");
@@ -244,20 +262,20 @@ public class MilitaryImpl extends javax.swing.JPanel {
         add(TeamWeapon0);
         TeamWeapon0.setBounds(410, 70, 40, 30);
 
-        MemberWep0_0.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        MemberWep0_0.setText("Spear: 5");
-        add(MemberWep0_0);
-        MemberWep0_0.setBounds(90, 90, 60, 17);
+        MemberAttack0_0.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        MemberAttack0_0.setText("A:00");
+        add(MemberAttack0_0);
+        MemberAttack0_0.setBounds(125, 50, 40, 17);
 
         MemberWep0_1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         MemberWep0_1.setText("Spear: 5");
         add(MemberWep0_1);
-        MemberWep0_1.setBounds(160, 90, 60, 17);
+        MemberWep0_1.setBounds(160, 90, 70, 17);
 
         MemberWep0_2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         MemberWep0_2.setText("Spear: 5");
         add(MemberWep0_2);
-        MemberWep0_2.setBounds(230, 90, 60, 17);
+        MemberWep0_2.setBounds(230, 90, 80, 17);
 
         AvailableLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         AvailableLabel.setText("Available Pop: 0");
@@ -275,6 +293,21 @@ public class MilitaryImpl extends javax.swing.JPanel {
         });
         add(TeamTrain0);
         TeamTrain0.setBounds(530, 70, 40, 30);
+
+        MemberWep0_0.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        MemberWep0_0.setText("Spear: 5");
+        add(MemberWep0_0);
+        MemberWep0_0.setBounds(80, 90, 70, 17);
+
+        MemberAttack0_1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        MemberAttack0_1.setText("A:00");
+        add(MemberAttack0_1);
+        MemberAttack0_1.setBounds(195, 50, 40, 17);
+
+        MemberAttack0_2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        MemberAttack0_2.setText("A:00");
+        add(MemberAttack0_2);
+        MemberAttack0_2.setBounds(265, 50, 40, 17);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CloseLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CloseLabelMouseClicked
@@ -309,6 +342,9 @@ public class MilitaryImpl extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AvailableLabel;
     private javax.swing.JLabel CloseLabel;
+    private javax.swing.JLabel MemberAttack0_0;
+    private javax.swing.JLabel MemberAttack0_1;
+    private javax.swing.JLabel MemberAttack0_2;
     private javax.swing.JLabel MemberWep0_0;
     private javax.swing.JLabel MemberWep0_1;
     private javax.swing.JLabel MemberWep0_2;

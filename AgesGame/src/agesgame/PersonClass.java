@@ -14,6 +14,8 @@ import java.util.Random;
 public class PersonClass extends CreatureClass{
 
 	public int GOODS_TOTAL = 1000;
+	public int FOOD_RAW = 100;
+	public int FOOD_MAX = 160;
 	
     private GameDataClass game;
     //public double x;
@@ -46,7 +48,7 @@ public class PersonClass extends CreatureClass{
         this.y = (float)y;
         speed = .3;
         target = new Point(x,y);
-        food = 150;
+        food = FOOD_MAX;
         goods = 1000;
         goodsLevel = 1;
         
@@ -63,33 +65,23 @@ public class PersonClass extends CreatureClass{
         //image= game.tables.getPersonIcon(graphic);        
     }
     public BufferedImage getImage(){
-        /*
-    	//game.tables.getPersonIcon(graphic).flush();
-    	//game.tables.getPersonIcon(graphic).getGraphics().dispose();
-        //BufferedImage icon = game.tables.getPersonIcon(graphic);
-        //icon.flush();
-        
-        //icon.getGraphics().dispose();
-        if (task != null){
-            if (task.contains("CARRY")){
-            	return game.tables.getPersonCarryIcon(graphic);
-                //icon.getGraphics().drawImage(game.tables.getCarryIcon().getScaledInstance(20, 20, 0), 2 , 8,null);
-                //icon.getGraphics().finalize();
-            }/*else
-            if(task.contains("DELIVER")){
-                icon.getGraphics().drawImage(game.tables.getDeliverIcon().getScaledInstance(20, 20, 0), 2 , 8,null);
-            }else{
-            
-            	//icon.getGraphics().drawImage(game.tables.getPersonIcon(graphic), 0, 0, null);
-            }
-        }else{
-        	
-        }
-        //icon.re*/
-        //return icon;
-             
+
+
        return game.tables.getPersonIcon(graphic + game.getCivEra()*10);
         
+    }
+    public BufferedImage getCarryIcon(){
+    	if (task != null){
+            if (task.getString().contains("CARRY")){
+            	return game.tables.getCarryIcon();
+                //icon.getGraphics().drawImage(game.tables.getCarryIcon().getScaledInstance(20, 20, 0), 2 , 8,null);
+                //icon.getGraphics().finalize();
+            }
+            if(task.getString().contains("DELIVER")){
+                return game.tables.getDeliverIcon();
+            }
+    	}
+    	return null;
     }
     public void timeTick(){
         food -= .1;
@@ -161,16 +153,18 @@ public class PersonClass extends CreatureClass{
                 game.popupList.add("RES" + task.getObject() + "-" +  Math.round(x) + "," + Math.round(y));
                 task = null;
             }else if (task.getString().contains("EAT")){
-                game.addResource(task.getObject(),-1);
-                if (task.getObject() < 4){
-                    food += 80;
-                    if (food > 150)
-                        food = 150;
-                }else{
-                    food = 150;
-                }
-                game.popupList.add("EAT" + "-" +  Math.round(x) + "," + Math.round(y));
-                task = null;
+            	if (game.hasResource(task.getObject())){
+            		game.addResource(task.getObject(),-1);
+                    if (task.getObject() < 4){
+                        food += FOOD_RAW;
+                        if (food > FOOD_MAX)
+                            food = FOOD_MAX;
+                    }else{
+                        food = FOOD_MAX;
+                    }
+                    game.popupList.add("EAT" + "-" +  Math.round(x) + "," + Math.round(y));
+            	}
+            	task = null;
             }else if (task.getString().contains("THINK")){
                 game.addResearchPoints(1);
                 game.popupList.add("TEC0" + "-" + Math.round(x) + "," + Math.round(y));
@@ -185,7 +179,8 @@ public class PersonClass extends CreatureClass{
 	            	}
             	}
             	game.addResource(4,meals);
-            	game.popupList.add("RES4" + "-" +  Math.round(x) + "," + Math.round(y));
+            	if (meals > 0)
+            		game.popupList.add("RES4" + "-" +  Math.round(x) + "," + Math.round(y));
                 game.tasks.add(task);   
                 task = null;
             }else if (task.getString().contains("CRAFT")){  //CRAFT - BUILDING ID- ITEM ID 
@@ -213,10 +208,13 @@ public class PersonClass extends CreatureClass{
             	}
             }else if (task.getString().contains("HUNT")){
             	int animal =  task.getObject();
-            	game.getAnimal(animal).hpChange(-game.tables.getItemValue(weapon));
+            	
+            	game.getAnimal(animal).hpChange(-getAttackDammage());
             	System.out.println("Animal(" + animal + ") Dammage Taken: " + game.tables.getItemValue(weapon) + "   HP:" + game.getAnimal(animal).getHP());
             	//Battle Popup	 game.popupList.add("GOODS" + "-" +  Math.round(x) + "," + Math.round(y));
             	// OR	hurt object - flash red 
+            	workCount = 1;
+            	game.popupList.add("ATTACK" + "-" +  Math.round(x) + "," + Math.round(y));
             	
             	if (game.getAnimal(animal).getHP() < 1){
             		int foodcount = 8; //TBD load from game tables
@@ -293,7 +291,7 @@ public class PersonClass extends CreatureClass{
                     }else if (currentTask.contains("FORAGE")){
                         task = game.tasks.remove(i);
                         idleCount = 0;
-                        workCount = game.getWorkTime(task.getString(),-1);;
+                        workCount = game.getWorkTime(task);;
                         target = game.locateMapTile(1,Math.round(x),Math.round(y));
 
                         System.out.println("Task Set: " + task.getString() + " to " + target + "  TIME: " + workCount); 
@@ -317,7 +315,7 @@ public class PersonClass extends CreatureClass{
                         }else if (task.getString().contains("DIGCLAY")){
                             target = game.locateMapTile(9,Math.round(x),Math.round(y));
                         }
-                        workCount = game.getWorkTime(task.getString(),task.getBuilding());
+                        workCount = game.getWorkTime(task);
                         System.out.println("Pop " + " Assigning Task: " + task.getString() + " at " + target + "  TIME: " + workCount);
                         break;
                     }
@@ -372,6 +370,65 @@ public class PersonClass extends CreatureClass{
         	goods += GOODS_TOTAL;
     	}
     	
+    }
+    public void fight(int id, boolean barb){
+    	
+    	//if first strike
+    	
+    	//else
+    	
+    	
+    	//player attack phase
+    	int dammage = getAttackDammage();
+    	if (barb){
+    		dammage -= game.getBarbarian(id).getDefence();
+    		
+    	}else{
+    		int animal =  task.getObject();
+    	}
+    	
+    	
+    	//attack phase
+    	
+    		//hit / miss
+    	
+    	
+    	game.getAnimal(animal).hpChange(-getAttackDammage());
+    	System.out.println("Animal(" + animal + ") Dammage Taken: " + game.tables.getItemValue(weapon) + "   HP:" + game.getAnimal(animal).getHP());
+    	
+    	//retaliate phase
+    	
+    	//check who attacked -> switch
+    	
+    	
+    	//reset all timers
+    	
+    	workCount = 1;
+    	
+    	
+    	//display
+    	game.popupList.add("ATTACK" + "-" +  Math.round(x) + "," + Math.round(y));
+    	
+    	//check dead
+    	
+    	
+    	
+    	if (game.getAnimal(animal).getHP() < 1){
+    		int foodcount = 8; //TBD load from game tables
+    		task = new TasksClass("CARRY",0,2,foodcount);
+            findResource(2);
+    		
+            game.killAnimal(animal);
+    		jobsAllowd = "MILITARY";
+    	}
+    	
+    }
+    public int getAttackDammage(){
+    	int attack = 0;
+    	attack += game.tables.getItemValue(weapon);
+    	//Training score
+    	
+    	return attack;
     }
     public void findResource(int res){
         int minDist = 9999999;

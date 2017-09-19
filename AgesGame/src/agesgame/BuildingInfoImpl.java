@@ -71,7 +71,7 @@ public class BuildingInfoImpl extends javax.swing.JPanel {
     	if (game.getBuilding(index).getType() == "HOUSE"){
     		value = game.getBuilding(index).getValue() + " pop";
     	}else if (game.getBuilding(index).getType() != "CRAFT"){
-    		value = game.getWorkTime(  game.getBuilding(index).getType(),index) + " sec";
+    		value = game.getWorkTime( new TasksClass(game.getBuilding(index).getType(),index)) + " sec";
     	}
     	
     	return value;
@@ -154,7 +154,7 @@ public class BuildingInfoImpl extends javax.swing.JPanel {
         SelectionNameLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         SelectionNameLabel.setText("NAME");
         add(SelectionNameLabel);
-        SelectionNameLabel.setBounds(10, 0, 180, 30);
+        SelectionNameLabel.setBounds(10, 0, 210, 30);
 
         SelectionBuiltLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         SelectionBuiltLabel.setText("(100%)");
@@ -176,22 +176,22 @@ public class BuildingInfoImpl extends javax.swing.JPanel {
             }
         });
         add(UpgradeLabel);
-        UpgradeLabel.setBounds(420, 10, 80, 30);
+        UpgradeLabel.setBounds(440, 10, 80, 30);
 
         UpgradeCostLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         UpgradeCostLabel.setText("COST");
         add(UpgradeCostLabel);
-        UpgradeCostLabel.setBounds(410, 50, 120, 20);
+        UpgradeCostLabel.setBounds(420, 50, 130, 20);
 
         BuildingTypeLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BuildingTypeLabel.setText("TYPE");
         add(BuildingTypeLabel);
-        BuildingTypeLabel.setBounds(200, 10, 100, 20);
+        BuildingTypeLabel.setBounds(220, 10, 100, 20);
 
         BuildingValueLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BuildingValueLabel.setText("(100%)");
         add(BuildingValueLabel);
-        BuildingValueLabel.setBounds(210, 30, 70, 20);
+        BuildingValueLabel.setBounds(220, 30, 70, 20);
 
         jLabel1.setBackground(new java.awt.Color(255, 51, 204));
         jLabel1.setText("PRODUCTION");
@@ -202,7 +202,7 @@ public class BuildingInfoImpl extends javax.swing.JPanel {
             }
         });
         add(jLabel1);
-        jLabel1.setBounds(330, 10, 70, 30);
+        jLabel1.setBounds(350, 10, 70, 30);
 
         CancelLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         CancelLabel.setForeground(new java.awt.Color(204, 0, 0));

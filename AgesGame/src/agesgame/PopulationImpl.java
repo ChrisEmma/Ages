@@ -50,7 +50,7 @@ public class PopulationImpl extends javax.swing.JPanel {
         
         HealthTotalLabel.setText("+" + game.getHealth());
         //set color by: game.canGrow()
-        PopRateLabel.setText("+" + game.getGrowthRate() + "/year");
+        PopRateLabel.setText("+" + game.getGrowthRate() + " Growth");
         
     }
     

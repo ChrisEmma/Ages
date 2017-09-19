@@ -25,10 +25,14 @@ public class TitleImpl extends javax.swing.JPanel {
         initComponents();
         scaleView();
         jLabel1.setIcon(new ImageIcon(getTitleImage().getScaledInstance(upper.getScaledValue(1600), upper.getScaledValue(800), 0)));
+        DecsLabel.setText("A Game By Chris Emma");
+        ContactLabel.setText("Ideas? Comments? Graphics? Contact cpemma25@gmail.com");
         VersionLabel.setText(version);
         this.setComponentZOrder(NewGameLabel, 0);
         this.setComponentZOrder(VersionLabel, 0);
         this.setComponentZOrder(NewGameLabel1, 0);
+        this.setComponentZOrder(DecsLabel, 0);
+        this.setComponentZOrder(ContactLabel, 0);
         
     }
     public void newGame(){
@@ -60,6 +64,12 @@ public class TitleImpl extends javax.swing.JPanel {
     	
     	VersionLabel.setBounds(upper.getScaledValue(VersionLabel.getX()), upper.getScaledValue(VersionLabel.getY()), upper.getScaledValue(VersionLabel.getWidth()), upper.getScaledValue(VersionLabel.getHeight()));
     	VersionLabel.setFont(new java.awt.Font("Tahoma", 0, upper.getScaledValue(14))); // NOI18N
+    	
+    	DecsLabel.setBounds(upper.getScaledValue(DecsLabel.getX()), upper.getScaledValue(DecsLabel.getY()), upper.getScaledValue(DecsLabel.getWidth()), upper.getScaledValue(DecsLabel.getHeight()));
+    	DecsLabel.setFont(new java.awt.Font("Tahoma", 1, upper.getScaledValue(15))); // NOI18N
+    	
+    	ContactLabel.setBounds(upper.getScaledValue(ContactLabel.getX()), upper.getScaledValue(ContactLabel.getY()), upper.getScaledValue(ContactLabel.getWidth()), upper.getScaledValue(ContactLabel.getHeight()));
+    	ContactLabel.setFont(new java.awt.Font("Tahoma", 0, upper.getScaledValue(14))); // NOI18N
     }
 
     /**
@@ -75,6 +85,8 @@ public class TitleImpl extends javax.swing.JPanel {
         NewGameLabel = new javax.swing.JLabel();
         VersionLabel = new javax.swing.JLabel();
         NewGameLabel1 = new javax.swing.JLabel();
+        DecsLabel = new javax.swing.JLabel();
+        ContactLabel = new javax.swing.JLabel();
 
         setLayout(null);
         add(jLabel1);
@@ -95,7 +107,7 @@ public class TitleImpl extends javax.swing.JPanel {
         VersionLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         VersionLabel.setText("VERSION");
         add(VersionLabel);
-        VersionLabel.setBounds(20, 720, 110, 20);
+        VersionLabel.setBounds(30, 720, 110, 20);
 
         NewGameLabel1.setBackground(new java.awt.Color(204, 204, 204));
         NewGameLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -109,6 +121,16 @@ public class TitleImpl extends javax.swing.JPanel {
         });
         add(NewGameLabel1);
         NewGameLabel1.setBounds(1320, 730, 90, 50);
+
+        DecsLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        DecsLabel.setText("DESC");
+        add(DecsLabel);
+        DecsLabel.setBounds(800, 420, 290, 20);
+
+        ContactLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ContactLabel.setText("CONTACT");
+        add(ContactLabel);
+        ContactLabel.setBounds(1180, 690, 400, 20);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NewGameLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewGameLabelMouseClicked
@@ -121,6 +143,8 @@ public class TitleImpl extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ContactLabel;
+    private javax.swing.JLabel DecsLabel;
     private javax.swing.JLabel NewGameLabel;
     private javax.swing.JLabel NewGameLabel1;
     private javax.swing.JLabel VersionLabel;

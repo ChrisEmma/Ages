@@ -33,7 +33,7 @@ public class GameTablesClass {
     public String buildingProduction[] = new String[BLD];
     
 
-    private final int TEC = 20;
+    public final int TEC = 20;
     public String technologyName[] = new String[TEC];
     public int technologyCost[] = new int[TEC];
     public int technologyStore[] = new int[TEC];
@@ -41,14 +41,16 @@ public class GameTablesClass {
     public int technologyValue[] = new int[TEC];
     public String techDescript[] = new String[TEC];
     
-    private final int ITEM = 20;
+    public final int ITEM = 20;
     public String itemName[] = new String[ITEM];
     public String itemType[] = new String[ITEM];
     public int itemValue[] = new int[ITEM];
     public int itemTime[] = new int[ITEM];
+    public BufferedImage itemIcon[] = new BufferedImage[ITEM];
     
     private final int ANIMAL = 5;
     public String animalName[] = new String[ANIMAL];
+    public int animalAttack[] = new int[ANIMAL];
     
     public BufferedImage unbuiltImage[] = new BufferedImage[10];
 
@@ -63,7 +65,11 @@ public class GameTablesClass {
     public BufferedImage person[] = new BufferedImage[20];
     public BufferedImage personCarry;
     public BufferedImage personDeliver;
+    public BufferedImage barbarian[] = new BufferedImage[5];
     public BufferedImage happy[] = new BufferedImage[11];
+    
+    public BufferedImage fightIcons[] = new BufferedImage[3];
+    public BufferedImage majorButtons[] = new BufferedImage[10];
     
     public BufferedImage map0;
     
@@ -331,7 +337,7 @@ public class GameTablesClass {
         buildingType[23] = "CRAFT";
         bldRequiredTech[23] = 3;
         buildingValue[23] = 5;
-        buildingProduction[23] = "1";
+        buildingProduction[23] = "1,3";
         
         buildingMenu.add("2");
         buildingMenu.add("1");
@@ -452,13 +458,38 @@ public class GameTablesClass {
         itemValue[2] = 1;
         itemTime[2] = 10;
         
-        itemName[3] = "Tablet"; //Clay
-        itemType[3] = "TECH_STORE";
-        itemValue[3] = 1;
-        itemTime[3] = 20;
+        itemName[3] = "Decorative Pottery";
+        itemType[3] = "GOODS";
+        itemValue[3] = 3;
+        itemTime[3] = 22;
+        
+        itemName[4] = "Tablet"; //Clay
+        itemType[4] = "TECH_STORE";
+        itemValue[4] = 1;
+        itemTime[4] = 20;
         
         animalName[0] = "Deer";
+        animalAttack[0] = 0;
         animalName[1] = "Rabbit";
+        animalAttack[1] = 0;
+        animalName[2] = "Boar";
+        animalAttack[2] = 1;
+        animalName[3] = "Wolf";
+        animalAttack[3] = 3;
+        animalName[4] = "Bear";
+        animalAttack[4] = 5;
+        
+        try {
+        	majorButtons[0] = ImageIO.read(new File(path + "BuildButton.png"));
+        	majorButtons[1] = ImageIO.read(new File(path + "HealthButton.png"));
+        	majorButtons[2] = ImageIO.read(new File(path + "MilitaryButton.png"));
+        	
+        	fightIcons[0] = ImageIO.read(new File(path + "CombatGreen.png"));
+        	fightIcons[1] = ImageIO.read(new File(path + "CombatRed.png"));
+        } catch (IOException e) {
+            System.out.println("-MainButtons- Err: " + e.getMessage());
+        }
+        
         
         try {
             buildingImage[0] = ImageIO.read(new File(path + "BuildingImgs/SmallCamp.png"));
@@ -478,9 +509,8 @@ public class GameTablesClass {
             
             buildingImage[11] = ImageIO.read(new File(path + "BuildingImgs/SimWoodHut.png"));
             buildingImage[12] = ImageIO.read(new File(path + "BuildingImgs/WoodHut.png"));
-            
-            buildingImage[13] = ImageIO.read(new File(path + "BuildingImgs/Generic.png"));
-            buildingImage[14] = ImageIO.read(new File(path + "BuildingImgs/Generic.png"));
+            buildingImage[13] = ImageIO.read(new File(path + "BuildingImgs/SimClayHut.png"));
+            buildingImage[14] = ImageIO.read(new File(path + "BuildingImgs/ClayHut.png"));
 
             unbuiltImage[0] = ImageIO.read(new File(path + "BuildingImgs/30x30.png"));
             unbuiltImage[1] = ImageIO.read(new File(path + "BuildingImgs/40x40.png"));
@@ -550,6 +580,18 @@ public class GameTablesClass {
         } catch (IOException e) {
             System.out.println("-Resources- Err: " + e.getMessage());
         }
+        
+        try {
+        	itemIcon[0] = ImageIO.read(new File(path + "Items/Basket.png"));
+        	itemIcon[1] = ImageIO.read(new File(path + "Items/Pottery.png"));
+            itemIcon[2] = ImageIO.read(new File(path + "Items/WoodenSpear.png"));
+            itemIcon[3] = ImageIO.read(new File(path + "Items/DecPottery.png"));
+            
+            itemIcon[4] = ImageIO.read(new File(path + "ResourceIcons/TBD.png"));
+            
+        } catch (IOException e) {
+            System.out.println("-Resources- Err: " + e.getMessage());
+        }
 
         try {
             researchIcon[0] = ImageIO.read(new File(path + "ResourceIcons/Thinking.png"));
@@ -569,6 +611,7 @@ public class GameTablesClass {
             person[11] = ImageIO.read(new File(path + "People/Bronze1.png"));
             person[12] = ImageIO.read(new File(path + "People/Bronze2.png"));
             
+            barbarian[0] = ImageIO.read(new File(path + "People/Barb0.png"));
             
             personCarry = ImageIO.read(new File(path + "People/CarryFood.png"));
             personDeliver = ImageIO.read(new File(path + "People/CarryItem.png"));
@@ -612,7 +655,7 @@ public class GameTablesClass {
         
     }
 
-    public int getTaskTime(String task) {
+    public int getTaskTime(String task, int id) {
         if (task.contains("BUILD")) {
             return 3;
         }
@@ -638,8 +681,6 @@ public class GameTablesClass {
             return 17;
         }
         if (task.contains("CRAFT")) {
-        	System.out.println("Get Craft Time   TASK: " + task);
-        	int id = Integer.parseInt(task.split("-")[2]);
             return itemTime[id];
         }
 
@@ -813,16 +854,15 @@ public class GameTablesClass {
         return person[i];
     }
     
+    public BufferedImage getBarbIcon(int i){
+        return barbarian[i];
+    }
+    
     public BufferedImage getCarryIcon() {
         return personCarry;
     }
     public BufferedImage getDeliverIcon() {
         return personDeliver;
-    }
-    public BufferedImage getPersonCarryIcon(int i){
-        BufferedImage out = person[i];
-        out.getGraphics().drawImage(personCarry.getScaledInstance(20, 20, 0), 0, 20, null);
-    	return out;
     }
     public BufferedImage getHappyIcon(int i) {
         return happy[i];
@@ -843,15 +883,25 @@ public class GameTablesClass {
     }
     
     public BufferedImage getItemIcon(int i) {
-    	//TEMP
-    	return genericItem;
-        //return resourceIcon[i];
+    	return itemIcon[i];
     }
     public BufferedImage getEatingIcon() {
     	return eatIcon;
     }
     public BufferedImage getMap(int i){
     	return map0;
+    }
+    public BufferedImage getCityButtons(int i){
+    	return majorButtons[i];
+    }
+    public BufferedImage getCombatIcon(int i){
+    	return fightIcons[i];
+    }
+    public String getAnimalName(int i){
+    	return animalName[i];
+    }
+    public int getAnimalAttack(int i){
+    	return animalAttack[i];
     }
             
 }

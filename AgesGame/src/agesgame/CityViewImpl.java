@@ -117,7 +117,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         this.setComponentZOrder(TerrainLabel, 5);
         for (int i = 0; i < game.getBuildingCount(); i++){
             getBuildingLabel(i).setSize(Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE));
-            getBuildingLabel(i).setLocation(Scale(game.getBuilding(i).getX()*TILE), Scale(game.getBuilding(i).getY()*TILE) + Scale(20));            
+            getBuildingLabel(i).setLocation(Scale(game.getBuilding(i).getX()*TILE+viewX), Scale(game.getBuilding(i).getY()*TILE+viewY) + Scale(20));            
             getBuildingLabel(i).setIcon(new ImageIcon(game.getBuilding(i).getImage().getScaledInstance(Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE), 0)));
             this.setComponentZOrder(getBuildingLabel(i), 3);
         }
@@ -127,6 +127,10 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             getPopulationLabel(i).setSize(Scale(POP_W), Scale(POP_L));
             getPopulationLabel(i).setVisible(false);
             this.setComponentZOrder(getPopulationLabel(i), 2);
+            
+            getPopCarryLabel(i).setSize(Scale(POP_W),Scale(25));
+            getPopCarryLabel(i).setVisible(false);
+            this.setComponentZOrder(getPopCarryLabel(i), 1);
         }
         
         for (int i = 0; i < game.animalCount(); i ++){
@@ -135,9 +139,21 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         	this.setComponentZOrder(getAnimalLabel(i), 2);
         }
         
+        for (int i = 0; i < game.barbarianCount(); i ++){
+        	getBarbarianLabel(i).setSize(Scale(POP_W), Scale(POP_L));
+        	this.setComponentZOrder(getBarbarianLabel(i), 2);
+        } 
+        
         PopCountLabel.setText(game.getPopCount() + "");
         //set color by: game.canGrow()
         PopRateLabel.setText("+" + game.getGrowthRate() + "/year");
+        
+        jLabel1.setText("");
+        jLabel1.setIcon(new ImageIcon(game.tables.getCityButtons(0).getScaledInstance(Scale(60), Scale(40), 0)));
+        PopOutput.setText("");
+        PopOutput.setIcon(new ImageIcon(game.tables.getCityButtons(1).getScaledInstance(Scale(60), Scale(40), 0)));
+        MilitaryLabel.setText("");
+        MilitaryLabel.setIcon(new ImageIcon(game.tables.getCityButtons(2).getScaledInstance(Scale(60), Scale(40), 0)));
         
         NewObjectLabel = new javax.swing.JLabel();
         NewObjectLabel.setVisible(false);
@@ -146,28 +162,22 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         this.add(NewObjectLabel);
         
         PopIcon.setText("");
-        PopIcon.setBounds(PopIcon.getX(), 0, Scale(10), Scale(15));  
         PopIcon.setIcon(new ImageIcon(game.tables.getPopIcon().getScaledInstance(Scale(10),Scale(15), 0)));
         GoodsIcon.setText("");
-        GoodsIcon.setSize(Scale(15), Scale(15));
         GoodsIcon.setIcon(new ImageIcon(game.tables.getGoodsIcon().getScaledInstance(Scale(15),Scale(15), 0)));
         ResourceIcon2.setText("");
         
         
-        ResourceIcon2.setBounds(ResourceIcon2.getX(), 0 ,Scale(20), Scale(20));
-        //ResourceIcon2.setBounds(ResourceIcon2.getX(), 0 ,(20), (20));
         
         ResourceIcon2.setIcon(new ImageIcon(game.tables.getResourceIcon(4).getScaledInstance(Scale(20),Scale(20), 0)));
         //ResourceIcon2.setIcon(new ImageIcon(game.tables.getResourceIcon(4).getScaledInstance(40,40, 0)));
         
         
         ResourceIcon0.setText("");
-        ResourceIcon0.setSize(Scale(20), Scale(20));
 //        ResourceIcon0.setSize(20, 20);
         ResourceIcon0.setIcon(new ImageIcon(game.tables.getResourceIcon(7).getScaledInstance(Scale(20),Scale(20),0)));
         
         ResourceIcon1.setIcon(new ImageIcon(game.tables.getResourceIcon(8).getScaledInstance(Scale(20),Scale(20), 0)));
-        ResourceIcon1.setSize(Scale(20), Scale(20));
         ResourceIcon1.setText("");
         this.setComponentZOrder(TimerLabel, 10);
         this.setComponentZOrder(ResourceIcon0, 10);
@@ -181,7 +191,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         
         for (int i = 0; i < game.getBuildingCount(); i++){
             getBuildingLabel(i).setSize(Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE));
-            getBuildingLabel(i).setLocation(Scale(game.getBuilding(i).getX()*TILE), Scale(game.getBuilding(i).getY()*TILE)+ Scale(20));
+            getBuildingLabel(i).setLocation(Scale(game.getBuilding(i).getX()*TILE+viewX), Scale(game.getBuilding(i).getY()*TILE+viewY)+ Scale(20));
             getBuildingLabel(i).setIcon(new ImageIcon(game.getBuilding(i).getImage().getScaledInstance(Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE), 0)));
         }
         
@@ -189,6 +199,8 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             getPopulationLabel(i).setSize(Scale(POP_W), Scale(POP_L));
             getPopulationLabel(i).setIcon(new ImageIcon(game.getPopulation(i).getImage().getScaledInstance(Scale(POP_W), Scale(POP_L), 0)));
             this.setComponentZOrder(getPopulationLabel(i), 2);
+            
+            
         }
         
         NewObjectLabel.setVisible(false);
@@ -237,13 +249,15 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     		TimerLabel.setText(Math.abs(game.getYear()) + " AD");
     	}
         
+    	MapPos.setText(viewX + ", " + -viewY);
+    	
         int food = game.getResource(0) + game.getResource(1) + game.getResource(2) + game.getResource(3) + game.getResource(4);
         ResourceLabel2.setText(food+"");
         ResourceLabel0.setText(game.getResource(7)+"");
         ResourceLabel1.setText(game.getResource(8)+"");
         GoodsLabel.setText(game.getGoodsCount() + "");
         for (int i = 0; i < game.getBuildingCount(); i++){
-        	getBuildingLabel(i).setBounds(Scale(game.getBuilding(i).getX()*TILE), Scale(game.getBuilding(i).getY()*TILE), Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE));
+        	getBuildingLabel(i).setBounds(Scale(game.getBuilding(i).getX()*TILE-viewX), Scale(game.getBuilding(i).getY()*TILE+viewY), Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE));
             getBuildingLabel(i).setIcon(new ImageIcon(game.getBuilding(i).getImage().getScaledInstance(Scale(game.getBuilding(i).getL()*TILE), Scale(game.getBuilding(i).getW()*TILE), 0)));
         }
         for (int i = game.getBuildingCount(); i < 16; i++){
@@ -256,19 +270,28 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         	
             getPopulationLabel(i).setIcon(new ImageIcon(game.getPopulation(i).getImage().getScaledInstance(Scale(POP_W), Scale(POP_L), 0)));
         //if (Scale(game.getPopulation(i).getX()) != getPopulationLabel(i).getX() || Scale(game.getPopulation(i).getY()+20) != getPopulationLabel(i).getY())
-            getPopulationLabel(i).setLocation(Scale(game.getPopulation(i).getX()*TILE), Scale(game.getPopulation(i).getY()*TILE)+ Scale(20));
+            getPopulationLabel(i).setLocation(Scale(game.getPopulation(i).getX()*TILE-viewX), Scale(game.getPopulation(i).getY()*TILE+viewY)+ Scale(20));
             getPopulationLabel(i).repaint(0, 0,Scale(POP_W), Scale(POP_L));
         	if (game.getPopulation(i).dammageFlag){
         		getPopulationLabel(i).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(237, 28, 36)));
         	}else{
         		getPopulationLabel(i).setBorder(null);
         	}
+        	
+        	if (game.getPopulation(i).getCarryIcon() != null){
+        		getPopCarryLabel(i).setLocation(Scale(game.getPopulation(i).getX()*TILE-viewX), Scale(game.getPopulation(i).getY()*TILE+viewY)+ Scale(23));
+            	getPopCarryLabel(i).setVisible(true);
+            	getPopCarryLabel(i).setIcon(new ImageIcon(game.getPopulation(i).getCarryIcon().getScaledInstance(Scale(POP_W), Scale(20), 0)));
+            	this.setComponentZOrder(getPopCarryLabel(i), 2);
+            }else{
+            	getPopCarryLabel(i).setVisible(false);
+            }
         		
         }
         
         for (int i = 0; i < game.animalCount(); i++){
         	this.setComponentZOrder(getAnimalLabel(i), 2);
-        	getAnimalLabel(i).setLocation(Scale(game.getAnimal(i).getX()*TILE), Scale(game.getAnimal(i).getY()*TILE)+ Scale(20));
+        	getAnimalLabel(i).setLocation(Scale(game.getAnimal(i).getX()*TILE-viewX), Scale(game.getAnimal(i).getY()*TILE+viewY)+ Scale(20));
             
             
         	if (game.getAnimal(i).dammageFlag){
@@ -279,6 +302,15 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         		getAnimalLabel(i).setBorder(null);
         	}
         }
+        
+        for (int i = 0; i < game.barbarianCount(); i++){
+        	this.setComponentZOrder(getBarbarianLabel(i), 2);
+        	getBarbarianLabel(i).setLocation(Scale(game.getBarbarian(i).getX()*TILE-viewX), Scale(game.getBarbarian(i).getY()*TILE+viewY)+ Scale(20));
+            
+        	getBarbarianLabel(i).setIcon(new ImageIcon(game.getBarbarian(i).getImage().getScaledInstance(Scale(POP_W), Scale(POP_L), 0)));
+        	
+        }
+        
         
         PopCountLabel.setText(game.getPopCount() + "");
         //set color by: game.canGrow()
@@ -295,6 +327,8 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     		personInfo.refreshDisplay();
     	}else if(buildingInfo.isVisible()){
     		buildingInfo.refreshDisplay();
+    	}else if(militaryMenu.isVisible()){
+    		militaryMenu.generateDisplay();
     	}
         //Check Menus
     	
@@ -324,8 +358,15 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     		if (game.popupList.get(0).contains("EAT")){
     			icon = game.tables.getEatingIcon();
     		}
+    		if (game.popupList.get(0).contains("ATTACK")){
+    			icon = game.tables.getCombatIcon(0);
+    		}
+    		if (game.popupList.get(0).contains("DEFEND")){
+    			icon = game.tables.getCombatIcon(1);
+    		}
+    		
     			
-    		PopupText popup = new PopupText("", 20, icon, Scale(TILE*Integer.parseInt(game.popupList.get(0).split("-")[1].split(",")[0])) , Scale(TILE*Integer.parseInt(game.popupList.get(0).split("-")[1].split(",")[1])),SCALE);
+    		PopupText popup = new PopupText("", 20, icon, Scale(TILE*Integer.parseInt(game.popupList.get(0).split("-")[1].split(",")[0])-viewX) , Scale(TILE*Integer.parseInt(game.popupList.get(0).split("-")[1].split(",")[1]))+viewY,SCALE);
             this.add(popup);
             this.setComponentZOrder(popup, 8);
             popup.setVisible(true);
@@ -337,17 +378,17 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     public void refreshBuilding(int id){
         System.out.println("Refresh Building:" + id) ;
         getBuildingLabel(id).setVisible(true);
-        getBuildingLabel(id).setBounds(Scale(game.getBuilding(id).getX()*TILE), Scale(game.getBuilding(id).getY()*TILE), Scale(game.getBuilding(id).getL()*TILE), Scale(game.getBuilding(id).getW()*TILE));
+        getBuildingLabel(id).setBounds(Scale(game.getBuilding(id).getX()*TILE-viewX), Scale(game.getBuilding(id).getY()*TILE+viewY), Scale(game.getBuilding(id).getL()*TILE), Scale(game.getBuilding(id).getW()*TILE));
         System.out.println("refreshBuilding - Set Building(" + id + ") Color");
         getBuildingLabel(id).setIcon(new ImageIcon(game.getBuilding(id).getImage().getScaledInstance(Scale(game.getBuilding(id).getL()*TILE), Scale(game.getBuilding(id).getW()*TILE), 0)));
         this.setComponentZOrder(getBuildingLabel(id), 3);
     }
 
     public void setBuild(int id, int x, int y) {
-        double calcPos = x / Scale(TILE);
+        double calcPos = (x + Scale(viewX)) / Scale(TILE);
         x = (int) (Math.round(calcPos));
         //calcPos = (y - Scale(20)) / Scale(TILE);
-        calcPos = (y ) / Scale(TILE);
+        calcPos = (y - Scale(viewY) ) / Scale(TILE);
         y = (int) (Math.round(calcPos));
 
         game.setupBuilding(id, x, y,-1);
@@ -361,6 +402,16 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     }
     public void personClick(int i){
         personInfo.setID(i);
+        buildingInfo.setVisible(false);
+        personInfo.setVisible(true);
+    }
+    public void wildClicked(int i){
+    	personInfo.setCreatureID(i);
+        buildingInfo.setVisible(false);
+        personInfo.setVisible(true);
+    }
+    public void barbClicked(int i){
+    	personInfo.setCreatureID(10 + i);
         buildingInfo.setVisible(false);
         personInfo.setVisible(true);
     }
@@ -429,8 +480,8 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     }
     public void mouseMoveBuilding(int i, MouseEvent e) {
     	if (buildMode) {
-    		int x = Scale(game.getBuilding(i).getX()*TILE) + e.getX();
-    	    int y = Scale(game.getBuilding(i).getY()*TILE) + e.getY();
+    		int x = Scale(game.getBuilding(i).getX()*TILE+viewX) + e.getX();
+    	    int y = Scale(game.getBuilding(i).getY()*TILE-viewY) + e.getY();
     	    setBuildLocation(x,y);
     	
 	    	if (canPlaceObject(x, y)) {
@@ -476,8 +527,8 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         int id = Integer.parseInt(NewObjectLabel.getText());
         int L = game.tables.getBuildingLength(id);
         int W = game.tables.getBuildingWidth(id);
-        
-        y -= Scale(20);
+        x += Scale(viewX);
+        y += Scale(-viewY) -Scale(20);
         
         for (int tY = 0; tY < L; tY++) {
             for (int tX = 0; tX < W; tX++) {
@@ -561,18 +612,34 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         this.setComponentZOrder(newCivMenu, 0);
         game.setPause(true);
     }
-    public void mapShift() {
-        TerrainLabel.setIcon(new ImageIcon(game.getMap(viewX, viewY)));
-        //redraw buildings
-    }
 
-    public void buttonClick(int y) {
+    public void YbuttonClick(int y) {
         viewY += y;
-        mapShift();
+        if (viewY > 0)
+        	viewY = 0;
+        game.setMapRedraw();
+        timeTick();
+    }
+    public void XbuttonClick(int x) {
+        viewX += x;
+        if (viewX < 0)
+        	viewX = 0;
+        
+        game.setMapRedraw();
+        timeTick();
+    }
+    public void recenterMapClick(){
+    	viewX = 0;
+    	viewY = 0;
+    	game.setMapRedraw();
+        timeTick();
     }
     
     public void outputTaskList(){
-        System.out.println( game.tasks.toString() );
+    	for (int i = 0; i < game.tasks.size(); i++){
+    		System.out.println("TASK - " + game.tasks.get(i).getString() + " Bld:" + game.tasks.get(i).getBuilding() + " O:" + game.tasks.get(i).getObject());	
+    	}
+        
     }
 
     public void keyPressed(KeyEvent event) {
@@ -661,24 +728,98 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         
         return  null;
     }
+    public JLabel getPopCarryLabel(int i){
+        if (i == 0){
+            return PopCarry0;
+        }if (i == 1){
+            return PopCarry1;
+        }if (i == 2){
+            return PopCarry2;
+        }if (i == 3){
+            return PopCarry3;
+        }if (i == 4){
+            return PopCarry4;
+        }if (i == 5){
+            return PopCarry5;
+        }if (i == 6){
+            return PopCarry6;
+        }if (i == 7){
+            return PopCarry7;
+        }if (i == 8){
+            return PopCarry8;
+        }if (i == 9){
+            return PopCarry9;
+        }if (i == 10){
+            return PopCarry10;
+        }if (i == 11){
+            return PopCarry11;
+        }if (i == 12){
+            return PopCarry12;
+        }if (i == 13){
+            return PopCarry13;
+        }if (i == 14){
+            return PopCarry14;
+        }if (i == 15){
+            return PopCarry15;
+        }if (i == 16){
+            return PopCarry16;
+        }if (i == 17){
+            return PopCarry17;
+        }if (i == 18){
+            return PopCarry18;
+        }if (i == 19){
+            return PopCarry19;
+        }if (i == 20){
+            return PopCarry20;
+        }if (i == 21){
+            return PopCarry21;
+        }if (i == 22){
+            return PopCarry22;
+        }
+        return null;
+    }
     
     public JLabel getAnimalLabel(int i){
         if (i == 0)
-            return WildLabel0;
+            return AnimalLabel0;
         if (i == 1)
-        	return WildLabel1;
+        	return AnimalLabel1;
         if (i == 2)
-        	return WildLabel2;
+        	return AnimalLabel2;
         if (i == 3)
         	return WildLabel3;
         if (i == 4)
         	return WildLabel4;
         return null;
     }
+    public JLabel getBarbarianLabel(int i){
+        if (i == 0)
+            return BarbLabel0;
+        if (i == 1)
+        	return BarbLabel1;
+        if (i == 2)
+        	return BarbLabel2;
+        if (i == 3)
+        	return BarbLabel3;
+        if (i == 4)
+        	return BarbLabel4;
+        if (i == 5)
+        	return BarbLabel5;
+        if (i == 6)
+        	return BarbLabel6;
+        if (i == 7)
+        	return BarbLabel7;
+        if (i == 8)
+        	return BarbLabel8;
+        if (i == 9)
+        	return BarbLabel9;
+        return null;
+    }
+    
     
     public void scaleView(){
     	
-        for (int i = 0; i < 21; i ++){
+        for (int i = 0; i < 22; i ++){
         	JLabel setLabel = new javax.swing.JLabel();;
         	if (i == 0)
         		setLabel = jLabel1;
@@ -722,11 +863,22 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         		setLabel = GoodsIcon;
         	if (i == 20)
         		setLabel = MilitaryLabel;
+        	if (i == 21)
+        		setLabel = MapPos;
+        	
         	
         	
         	setLabel.setBounds(Scale(setLabel.getX()), Scale(setLabel.getY()), Scale(setLabel.getWidth()), Scale(setLabel.getHeight()));
         	
         }
+        
+        UpButton.setBounds(Scale(UpButton.getX()), Scale(UpButton.getY()), Scale(UpButton.getWidth()), Scale(UpButton.getHeight()));
+        DownButton.setBounds(Scale(DownButton.getX()), Scale(DownButton.getY()), Scale(DownButton.getWidth()), Scale(DownButton.getHeight()));
+        RightButton.setBounds(Scale(RightButton.getX()), Scale(RightButton.getY()), Scale(RightButton.getWidth()), Scale(RightButton.getHeight()));
+        LeftButton.setBounds(Scale(LeftButton.getX()), Scale(LeftButton.getY()), Scale(LeftButton.getWidth()), Scale(LeftButton.getHeight()));
+        ZeroButton.setBounds(Scale(ZeroButton.getX()), Scale(ZeroButton.getY()), Scale(ZeroButton.getWidth()), Scale(ZeroButton.getHeight()));
+        MapPos.setFont(new java.awt.Font("Tahoma", 0, Scale(12))); // NOI18N
+        
         TimerLabel.setFont(new java.awt.Font("Tahoma", 1, Scale(14))); // NOI18N
         PopOutput.setFont(new java.awt.Font("Tahoma", 1, Scale(14))); // NOI18N
         
@@ -763,8 +915,8 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     private void initComponents() {
 
         TerrainLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        DownButton = new javax.swing.JButton();
+        UpButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         BuildingLabel0 = new javax.swing.JLabel();
         BuildingLabel1 = new javax.swing.JLabel();
@@ -826,9 +978,9 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         GoodsIcon = new javax.swing.JLabel();
         GoodsLabel = new javax.swing.JLabel();
         MilitaryLabel = new javax.swing.JLabel();
-        WildLabel0 = new javax.swing.JLabel();
-        WildLabel1 = new javax.swing.JLabel();
-        WildLabel2 = new javax.swing.JLabel();
+        AnimalLabel0 = new javax.swing.JLabel();
+        AnimalLabel1 = new javax.swing.JLabel();
+        AnimalLabel2 = new javax.swing.JLabel();
         WildLabel3 = new javax.swing.JLabel();
         WildLabel4 = new javax.swing.JLabel();
         WildLabel5 = new javax.swing.JLabel();
@@ -836,6 +988,45 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         WildLabel7 = new javax.swing.JLabel();
         WildLabel8 = new javax.swing.JLabel();
         WildLabel9 = new javax.swing.JLabel();
+        MapPos = new javax.swing.JLabel();
+        LeftButton = new javax.swing.JButton();
+        RightButton = new javax.swing.JButton();
+        ZeroButton = new javax.swing.JButton();
+        PopCarry0 = new javax.swing.JLabel();
+        PopCarry1 = new javax.swing.JLabel();
+        PopCarry2 = new javax.swing.JLabel();
+        PopCarry3 = new javax.swing.JLabel();
+        PopCarry4 = new javax.swing.JLabel();
+        PopCarry5 = new javax.swing.JLabel();
+        PopCarry6 = new javax.swing.JLabel();
+        PopCarry7 = new javax.swing.JLabel();
+        PopCarry8 = new javax.swing.JLabel();
+        PopCarry9 = new javax.swing.JLabel();
+        PopCarry10 = new javax.swing.JLabel();
+        PopCarry11 = new javax.swing.JLabel();
+        PopCarry12 = new javax.swing.JLabel();
+        PopCarry13 = new javax.swing.JLabel();
+        PopCarry14 = new javax.swing.JLabel();
+        PopCarry15 = new javax.swing.JLabel();
+        PopCarry16 = new javax.swing.JLabel();
+        PopCarry17 = new javax.swing.JLabel();
+        PopCarry18 = new javax.swing.JLabel();
+        PopCarry19 = new javax.swing.JLabel();
+        PopCarry20 = new javax.swing.JLabel();
+        PopCarry21 = new javax.swing.JLabel();
+        PopCarry22 = new javax.swing.JLabel();
+        PopCarry23 = new javax.swing.JLabel();
+        PopCarry24 = new javax.swing.JLabel();
+        BarbLabel0 = new javax.swing.JLabel();
+        BarbLabel1 = new javax.swing.JLabel();
+        BarbLabel2 = new javax.swing.JLabel();
+        BarbLabel3 = new javax.swing.JLabel();
+        BarbLabel4 = new javax.swing.JLabel();
+        BarbLabel5 = new javax.swing.JLabel();
+        BarbLabel6 = new javax.swing.JLabel();
+        BarbLabel7 = new javax.swing.JLabel();
+        BarbLabel8 = new javax.swing.JLabel();
+        BarbLabel9 = new javax.swing.JLabel();
 
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -869,26 +1060,27 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         add(TerrainLabel);
         TerrainLabel.setBounds(0, 20, 20, 20);
 
-        jButton1.setText("DOWN");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        DownButton.setText("D");
+        DownButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                DownButtonActionPerformed(evt);
             }
         });
-        add(jButton1);
-        jButton1.setBounds(1510, 120, 73, 41);
+        add(DownButton);
+        DownButton.setBounds(730, 780, 40, 20);
 
-        jButton2.setText("UP");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        UpButton.setText("U");
+        UpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                UpButtonActionPerformed(evt);
             }
         });
-        add(jButton2);
-        jButton2.setBounds(1510, 70, 65, 41);
+        add(UpButton);
+        UpButton.setBounds(730, 740, 40, 20);
 
         jLabel1.setBackground(new java.awt.Color(255, 153, 51));
         jLabel1.setText("BUILD");
+        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jLabel1.setOpaque(true);
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -896,7 +1088,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             }
         });
         add(jLabel1);
-        jLabel1.setBounds(1350, 750, 60, 40);
+        jLabel1.setBounds(1350, 750, 62, 42);
 
         BuildingLabel0.setBackground(new java.awt.Color(153, 153, 153));
         BuildingLabel0.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -958,6 +1150,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         PopOutput.setBackground(new java.awt.Color(0, 255, 0));
         PopOutput.setText("Pop Data");
+        PopOutput.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         PopOutput.setOpaque(true);
         PopOutput.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -965,7 +1158,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             }
         });
         add(PopOutput);
-        PopOutput.setBounds(1420, 750, 60, 40);
+        PopOutput.setBounds(1420, 750, 62, 42);
 
         PopLabel0.setBackground(new java.awt.Color(0, 0, 0));
         PopLabel0.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -987,14 +1180,13 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         ResourceIcon0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         ResourceIcon0.setText("W:");
-        ResourceIcon0.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         ResourceIcon0.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ResourceIcon0MouseClicked(evt);
             }
         });
         add(ResourceIcon0);
-        ResourceIcon0.setBounds(1270, 0, 20, 19);
+        ResourceIcon0.setBounds(1270, 0, 20, 17);
 
         ResourceLabel0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         ResourceLabel0.setText("0000");
@@ -1008,6 +1200,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         WorkforceLabel.setBackground(new java.awt.Color(255, 255, 0));
         WorkforceLabel.setText("WORKFORCE");
+        WorkforceLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         WorkforceLabel.setOpaque(true);
         WorkforceLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1015,7 +1208,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             }
         });
         add(WorkforceLabel);
-        WorkforceLabel.setBounds(1140, 750, 60, 40);
+        WorkforceLabel.setBounds(1140, 750, 62, 42);
 
         PopLabel2.setBackground(new java.awt.Color(0, 0, 0));
         PopLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1057,11 +1250,21 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         PopIcon.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         PopIcon.setText("P");
         PopIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PopIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopIconMouseClicked(evt);
+            }
+        });
         add(PopIcon);
         PopIcon.setBounds(70, 0, 10, 19);
 
         PopCountLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         PopCountLabel.setText("0000");
+        PopCountLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCountLabelMouseClicked(evt);
+            }
+        });
         add(PopCountLabel);
         PopCountLabel.setBounds(90, 0, 40, 17);
 
@@ -1194,6 +1397,11 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         ResourceIcon2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         ResourceIcon2.setText("F:");
+        ResourceIcon2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ResourceIcon2MouseClicked(evt);
+            }
+        });
         add(ResourceIcon2);
         ResourceIcon2.setBounds(1140, 0, 20, 17);
 
@@ -1209,6 +1417,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         TechLabel.setBackground(new java.awt.Color(51, 102, 255));
         TechLabel.setText("TECH");
+        TechLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         TechLabel.setOpaque(true);
         TechLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1216,7 +1425,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             }
         });
         add(TechLabel);
-        TechLabel.setBounds(1280, 750, 60, 40);
+        TechLabel.setBounds(1280, 750, 62, 42);
 
         PopLabel6.setBackground(new java.awt.Color(0, 0, 0));
         PopLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1466,6 +1675,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         ItemsLabel.setBackground(new java.awt.Color(255, 0, 255));
         ItemsLabel.setText("ITEMS");
+        ItemsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         ItemsLabel.setOpaque(true);
         ItemsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1473,7 +1683,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             }
         });
         add(ItemsLabel);
-        ItemsLabel.setBounds(1070, 750, 60, 40);
+        ItemsLabel.setBounds(1070, 750, 62, 42);
 
         NameLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         NameLabel.setText("CIV NAME");
@@ -1507,6 +1717,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
 
         MilitaryLabel.setBackground(new java.awt.Color(255, 0, 51));
         MilitaryLabel.setText("MILITARY");
+        MilitaryLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         MilitaryLabel.setOpaque(true);
         MilitaryLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1514,34 +1725,34 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
             }
         });
         add(MilitaryLabel);
-        MilitaryLabel.setBounds(1210, 750, 60, 40);
+        MilitaryLabel.setBounds(1210, 750, 62, 42);
 
-        WildLabel0.setBackground(new java.awt.Color(0, 0, 0));
-        WildLabel0.addMouseListener(new java.awt.event.MouseAdapter() {
+        AnimalLabel0.setBackground(new java.awt.Color(0, 0, 0));
+        AnimalLabel0.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                WildLabel0MouseClicked(evt);
+                AnimalLabel0MouseClicked(evt);
             }
         });
-        add(WildLabel0);
-        WildLabel0.setBounds(1520, 230, 5, 5);
+        add(AnimalLabel0);
+        AnimalLabel0.setBounds(1520, 230, 5, 5);
 
-        WildLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        WildLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        AnimalLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        AnimalLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                WildLabel1MouseClicked(evt);
+                AnimalLabel1MouseClicked(evt);
             }
         });
-        add(WildLabel1);
-        WildLabel1.setBounds(1520, 230, 5, 5);
+        add(AnimalLabel1);
+        AnimalLabel1.setBounds(1520, 230, 5, 5);
 
-        WildLabel2.setBackground(new java.awt.Color(0, 0, 0));
-        WildLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        AnimalLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        AnimalLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                WildLabel2MouseClicked(evt);
+                AnimalLabel2MouseClicked(evt);
             }
         });
-        add(WildLabel2);
-        WildLabel2.setBounds(1520, 230, 5, 5);
+        add(AnimalLabel2);
+        AnimalLabel2.setBounds(1520, 230, 5, 5);
 
         WildLabel3.setBackground(new java.awt.Color(0, 0, 0));
         WildLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1605,19 +1816,371 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         });
         add(WildLabel9);
         WildLabel9.setBounds(1520, 230, 5, 5);
+
+        MapPos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        MapPos.setText("LOCATION");
+        MapPos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MapPosMouseClicked(evt);
+            }
+        });
+        add(MapPos);
+        MapPos.setBounds(970, 0, 100, 17);
+
+        LeftButton.setText("L");
+        LeftButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeftButtonActionPerformed(evt);
+            }
+        });
+        add(LeftButton);
+        LeftButton.setBounds(690, 760, 40, 20);
+
+        RightButton.setText("R");
+        RightButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RightButtonActionPerformed(evt);
+            }
+        });
+        add(RightButton);
+        RightButton.setBounds(770, 760, 40, 20);
+
+        ZeroButton.setText("0");
+        ZeroButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ZeroButtonActionPerformed(evt);
+            }
+        });
+        add(ZeroButton);
+        ZeroButton.setBounds(730, 760, 40, 20);
+
+        PopCarry0.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry0.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry0MouseClicked(evt);
+            }
+        });
+        add(PopCarry0);
+        PopCarry0.setBounds(980, 190, 10, 10);
+
+        PopCarry1.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry1MouseClicked(evt);
+            }
+        });
+        add(PopCarry1);
+        PopCarry1.setBounds(1035, 190, 10, 10);
+
+        PopCarry2.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry2MouseClicked(evt);
+            }
+        });
+        add(PopCarry2);
+        PopCarry2.setBounds(1035, 190, 10, 10);
+
+        PopCarry3.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry3MouseClicked(evt);
+            }
+        });
+        add(PopCarry3);
+        PopCarry3.setBounds(1035, 190, 10, 10);
+
+        PopCarry4.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry4MouseClicked(evt);
+            }
+        });
+        add(PopCarry4);
+        PopCarry4.setBounds(1035, 190, 10, 10);
+
+        PopCarry5.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry5MouseClicked(evt);
+            }
+        });
+        add(PopCarry5);
+        PopCarry5.setBounds(1035, 190, 10, 10);
+
+        PopCarry6.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry6MouseClicked(evt);
+            }
+        });
+        add(PopCarry6);
+        PopCarry6.setBounds(1035, 190, 10, 10);
+
+        PopCarry7.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry7MouseClicked(evt);
+            }
+        });
+        add(PopCarry7);
+        PopCarry7.setBounds(1035, 190, 10, 10);
+
+        PopCarry8.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry8MouseClicked(evt);
+            }
+        });
+        add(PopCarry8);
+        PopCarry8.setBounds(1035, 190, 10, 10);
+
+        PopCarry9.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry9MouseClicked(evt);
+            }
+        });
+        add(PopCarry9);
+        PopCarry9.setBounds(1035, 190, 10, 10);
+
+        PopCarry10.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry10MouseClicked(evt);
+            }
+        });
+        add(PopCarry10);
+        PopCarry10.setBounds(1035, 190, 10, 10);
+
+        PopCarry11.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry11MouseClicked(evt);
+            }
+        });
+        add(PopCarry11);
+        PopCarry11.setBounds(1035, 190, 10, 10);
+
+        PopCarry12.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry12MouseClicked(evt);
+            }
+        });
+        add(PopCarry12);
+        PopCarry12.setBounds(1035, 190, 10, 10);
+
+        PopCarry13.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry13MouseClicked(evt);
+            }
+        });
+        add(PopCarry13);
+        PopCarry13.setBounds(1035, 190, 10, 10);
+
+        PopCarry14.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry14MouseClicked(evt);
+            }
+        });
+        add(PopCarry14);
+        PopCarry14.setBounds(1035, 190, 10, 10);
+
+        PopCarry15.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry15MouseClicked(evt);
+            }
+        });
+        add(PopCarry15);
+        PopCarry15.setBounds(1035, 190, 10, 10);
+
+        PopCarry16.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry16MouseClicked(evt);
+            }
+        });
+        add(PopCarry16);
+        PopCarry16.setBounds(1035, 190, 10, 10);
+
+        PopCarry17.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry17MouseClicked(evt);
+            }
+        });
+        add(PopCarry17);
+        PopCarry17.setBounds(1035, 190, 10, 10);
+
+        PopCarry18.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry18MouseClicked(evt);
+            }
+        });
+        add(PopCarry18);
+        PopCarry18.setBounds(1035, 190, 10, 10);
+
+        PopCarry19.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry19MouseClicked(evt);
+            }
+        });
+        add(PopCarry19);
+        PopCarry19.setBounds(1035, 190, 10, 10);
+
+        PopCarry20.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry20MouseClicked(evt);
+            }
+        });
+        add(PopCarry20);
+        PopCarry20.setBounds(1035, 190, 10, 10);
+
+        PopCarry21.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry21MouseClicked(evt);
+            }
+        });
+        add(PopCarry21);
+        PopCarry21.setBounds(1035, 190, 10, 10);
+
+        PopCarry22.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry22MouseClicked(evt);
+            }
+        });
+        add(PopCarry22);
+        PopCarry22.setBounds(1035, 190, 10, 10);
+
+        PopCarry23.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry23MouseClicked(evt);
+            }
+        });
+        add(PopCarry23);
+        PopCarry23.setBounds(1035, 190, 10, 10);
+
+        PopCarry24.setBackground(new java.awt.Color(0, 0, 0));
+        PopCarry24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PopCarry24MouseClicked(evt);
+            }
+        });
+        add(PopCarry24);
+        PopCarry24.setBounds(980, 190, 10, 10);
+
+        BarbLabel0.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel0.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel0MouseClicked(evt);
+            }
+        });
+        add(BarbLabel0);
+        BarbLabel0.setBounds(820, 230, 5, 5);
+
+        BarbLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel1MouseClicked(evt);
+            }
+        });
+        add(BarbLabel1);
+        BarbLabel1.setBounds(820, 230, 5, 5);
+
+        BarbLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel2MouseClicked(evt);
+            }
+        });
+        add(BarbLabel2);
+        BarbLabel2.setBounds(820, 230, 5, 5);
+
+        BarbLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel3MouseClicked(evt);
+            }
+        });
+        add(BarbLabel3);
+        BarbLabel3.setBounds(820, 230, 5, 5);
+
+        BarbLabel4.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel4MouseClicked(evt);
+            }
+        });
+        add(BarbLabel4);
+        BarbLabel4.setBounds(820, 230, 5, 5);
+
+        BarbLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel5MouseClicked(evt);
+            }
+        });
+        add(BarbLabel5);
+        BarbLabel5.setBounds(820, 230, 5, 5);
+
+        BarbLabel6.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel6MouseClicked(evt);
+            }
+        });
+        add(BarbLabel6);
+        BarbLabel6.setBounds(820, 230, 5, 5);
+
+        BarbLabel7.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel7MouseClicked(evt);
+            }
+        });
+        add(BarbLabel7);
+        BarbLabel7.setBounds(820, 230, 5, 5);
+
+        BarbLabel8.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel8MouseClicked(evt);
+            }
+        });
+        add(BarbLabel8);
+        BarbLabel8.setBounds(820, 230, 5, 5);
+
+        BarbLabel9.setBackground(new java.awt.Color(0, 0, 0));
+        BarbLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BarbLabel9MouseClicked(evt);
+            }
+        });
+        add(BarbLabel9);
+        BarbLabel9.setBounds(820, 230, 5, 5);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         keyPressed(evt);
     }//GEN-LAST:event_formKeyPressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        buttonClick(10);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void UpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpButtonActionPerformed
+    	YbuttonClick(5);
+    }//GEN-LAST:event_UpButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        buttonClick(-10);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void DownButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DownButtonActionPerformed
+    	YbuttonClick(-5);
+    }//GEN-LAST:event_DownButtonActionPerformed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
         mouseMove(evt);
@@ -1904,7 +2467,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     }//GEN-LAST:event_ItemsLabelMouseClicked
 
     private void ResourceLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ResourceLabel2MouseClicked
-        // TODO add your handling code here:
+    	showInventoryScreen();
     }//GEN-LAST:event_ResourceLabel2MouseClicked
 
     private void GoodsIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GoodsIconMouseClicked
@@ -1919,28 +2482,28 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     	showMilitaryScreen();
     }//GEN-LAST:event_MilitaryLabelMouseClicked
 
-    private void WildLabel0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel0MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_WildLabel0MouseClicked
+    private void AnimalLabel0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AnimalLabel0MouseClicked
+    	wildClicked(0);
+    }//GEN-LAST:event_AnimalLabel0MouseClicked
 
-    private void WildLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_WildLabel1MouseClicked
+    private void AnimalLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AnimalLabel1MouseClicked
+    	wildClicked(1);
+    }//GEN-LAST:event_AnimalLabel1MouseClicked
 
-    private void WildLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_WildLabel2MouseClicked
+    private void AnimalLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AnimalLabel2MouseClicked
+    	wildClicked(2);
+    }//GEN-LAST:event_AnimalLabel2MouseClicked
 
     private void WildLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel3MouseClicked
-        // TODO add your handling code here:
+    	wildClicked(3);
     }//GEN-LAST:event_WildLabel3MouseClicked
 
     private void WildLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel4MouseClicked
-        // TODO add your handling code here:
+    	wildClicked(4);
     }//GEN-LAST:event_WildLabel4MouseClicked
 
     private void WildLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel5MouseClicked
-        // TODO add your handling code here:
+    	wildClicked(5);
     }//GEN-LAST:event_WildLabel5MouseClicked
 
     private void WildLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WildLabel6MouseClicked
@@ -1959,8 +2522,189 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
         // TODO add your handling code here:
     }//GEN-LAST:event_WildLabel9MouseClicked
 
+    private void MapPosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MapPosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MapPosMouseClicked
+
+    private void LeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftButtonActionPerformed
+    	XbuttonClick(-5);
+    }//GEN-LAST:event_LeftButtonActionPerformed
+
+    private void RightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RightButtonActionPerformed
+    	XbuttonClick(5);
+    }//GEN-LAST:event_RightButtonActionPerformed
+
+    private void ZeroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZeroButtonActionPerformed
+    	recenterMapClick();
+    }//GEN-LAST:event_ZeroButtonActionPerformed
+
+    private void ResourceIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ResourceIcon2MouseClicked
+    	showInventoryScreen();
+    }//GEN-LAST:event_ResourceIcon2MouseClicked
+
+    private void PopIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopIconMouseClicked
+    	showPopInfo();
+    }//GEN-LAST:event_PopIconMouseClicked
+
+    private void PopCountLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCountLabelMouseClicked
+    	showPopInfo();
+    }//GEN-LAST:event_PopCountLabelMouseClicked
+
+    private void PopCarry0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry0MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry0MouseClicked
+
+    private void PopCarry1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry1MouseClicked
+
+    private void PopCarry2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry2MouseClicked
+
+    private void PopCarry3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry3MouseClicked
+
+    private void PopCarry4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry4MouseClicked
+
+    private void PopCarry5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry5MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry5MouseClicked
+
+    private void PopCarry6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry6MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry6MouseClicked
+
+    private void PopCarry7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry7MouseClicked
+
+    private void PopCarry8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry8MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry8MouseClicked
+
+    private void PopCarry9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry9MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry9MouseClicked
+
+    private void PopCarry10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry10MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry10MouseClicked
+
+    private void PopCarry11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry11MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry11MouseClicked
+
+    private void PopCarry12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry12MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry12MouseClicked
+
+    private void PopCarry13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry13MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry13MouseClicked
+
+    private void PopCarry14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry14MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry14MouseClicked
+
+    private void PopCarry15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry15MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry15MouseClicked
+
+    private void PopCarry16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry16MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry16MouseClicked
+
+    private void PopCarry17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry17MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry17MouseClicked
+
+    private void PopCarry18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry18MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry18MouseClicked
+
+    private void PopCarry19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry19MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry19MouseClicked
+
+    private void PopCarry20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry20MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry20MouseClicked
+
+    private void PopCarry21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry21MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry21MouseClicked
+
+    private void PopCarry22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry22MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry22MouseClicked
+
+    private void PopCarry23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry23MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry23MouseClicked
+
+    private void PopCarry24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PopCarry24MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PopCarry24MouseClicked
+
+    private void BarbLabel0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel0MouseClicked
+    	barbClicked(0);
+    }//GEN-LAST:event_BarbLabel0MouseClicked
+
+    private void BarbLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel1MouseClicked
+    	barbClicked(1);
+    }//GEN-LAST:event_BarbLabel1MouseClicked
+
+    private void BarbLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel2MouseClicked
+    	barbClicked(2);
+    }//GEN-LAST:event_BarbLabel2MouseClicked
+
+    private void BarbLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel3MouseClicked
+    	barbClicked(3);
+    }//GEN-LAST:event_BarbLabel3MouseClicked
+
+    private void BarbLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel4MouseClicked
+    	barbClicked(4);
+    }//GEN-LAST:event_BarbLabel4MouseClicked
+
+    private void BarbLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel5MouseClicked
+    	barbClicked(5);
+    }//GEN-LAST:event_BarbLabel5MouseClicked
+
+    private void BarbLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel6MouseClicked
+    	barbClicked(6);
+    }//GEN-LAST:event_BarbLabel6MouseClicked
+
+    private void BarbLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel7MouseClicked
+    	barbClicked(7);
+    }//GEN-LAST:event_BarbLabel7MouseClicked
+
+    private void BarbLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel8MouseClicked
+    	barbClicked(8);
+    }//GEN-LAST:event_BarbLabel8MouseClicked
+
+    private void BarbLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarbLabel9MouseClicked
+    	barbClicked(9);
+    }//GEN-LAST:event_BarbLabel9MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AnimalLabel0;
+    private javax.swing.JLabel AnimalLabel1;
+    private javax.swing.JLabel AnimalLabel2;
+    private javax.swing.JLabel BarbLabel0;
+    private javax.swing.JLabel BarbLabel1;
+    private javax.swing.JLabel BarbLabel2;
+    private javax.swing.JLabel BarbLabel3;
+    private javax.swing.JLabel BarbLabel4;
+    private javax.swing.JLabel BarbLabel5;
+    private javax.swing.JLabel BarbLabel6;
+    private javax.swing.JLabel BarbLabel7;
+    private javax.swing.JLabel BarbLabel8;
+    private javax.swing.JLabel BarbLabel9;
     private javax.swing.JLabel BuildingLabel0;
     private javax.swing.JLabel BuildingLabel1;
     private javax.swing.JLabel BuildingLabel10;
@@ -1977,12 +2721,40 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     private javax.swing.JLabel BuildingLabel7;
     private javax.swing.JLabel BuildingLabel8;
     private javax.swing.JLabel BuildingLabel9;
+    private javax.swing.JButton DownButton;
     private javax.swing.JLabel EraLabel;
     private javax.swing.JLabel GoodsIcon;
     private javax.swing.JLabel GoodsLabel;
     private javax.swing.JLabel ItemsLabel;
+    private javax.swing.JButton LeftButton;
+    private javax.swing.JLabel MapPos;
     private javax.swing.JLabel MilitaryLabel;
     private javax.swing.JLabel NameLabel;
+    private javax.swing.JLabel PopCarry0;
+    private javax.swing.JLabel PopCarry1;
+    private javax.swing.JLabel PopCarry10;
+    private javax.swing.JLabel PopCarry11;
+    private javax.swing.JLabel PopCarry12;
+    private javax.swing.JLabel PopCarry13;
+    private javax.swing.JLabel PopCarry14;
+    private javax.swing.JLabel PopCarry15;
+    private javax.swing.JLabel PopCarry16;
+    private javax.swing.JLabel PopCarry17;
+    private javax.swing.JLabel PopCarry18;
+    private javax.swing.JLabel PopCarry19;
+    private javax.swing.JLabel PopCarry2;
+    private javax.swing.JLabel PopCarry20;
+    private javax.swing.JLabel PopCarry21;
+    private javax.swing.JLabel PopCarry22;
+    private javax.swing.JLabel PopCarry23;
+    private javax.swing.JLabel PopCarry24;
+    private javax.swing.JLabel PopCarry3;
+    private javax.swing.JLabel PopCarry4;
+    private javax.swing.JLabel PopCarry5;
+    private javax.swing.JLabel PopCarry6;
+    private javax.swing.JLabel PopCarry7;
+    private javax.swing.JLabel PopCarry8;
+    private javax.swing.JLabel PopCarry9;
     private javax.swing.JLabel PopCountLabel;
     private javax.swing.JLabel PopIcon;
     private javax.swing.JLabel PopLabel0;
@@ -2017,13 +2789,12 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     private javax.swing.JLabel ResourceLabel0;
     private javax.swing.JLabel ResourceLabel1;
     private javax.swing.JLabel ResourceLabel2;
+    private javax.swing.JButton RightButton;
     private javax.swing.JLabel TasksLbl;
     private javax.swing.JLabel TechLabel;
     private javax.swing.JLabel TerrainLabel;
     private javax.swing.JLabel TimerLabel;
-    private javax.swing.JLabel WildLabel0;
-    private javax.swing.JLabel WildLabel1;
-    private javax.swing.JLabel WildLabel2;
+    private javax.swing.JButton UpButton;
     private javax.swing.JLabel WildLabel3;
     private javax.swing.JLabel WildLabel4;
     private javax.swing.JLabel WildLabel5;
@@ -2032,8 +2803,7 @@ public class CityViewImpl extends javax.swing.JLayeredPane {
     private javax.swing.JLabel WildLabel8;
     private javax.swing.JLabel WildLabel9;
     private javax.swing.JLabel WorkforceLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton ZeroButton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JLabel BuildingLabel;
